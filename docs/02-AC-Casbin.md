@@ -3,8 +3,9 @@
 ## 基本概念
 
 + 模型：
-  + subject(访问实体), object(访问资源), action(访问方法)
-
+  
++ subject(访问实体), object(访问资源), action(访问方法)
+  
 + Model：
   + model.conf
 
@@ -76,6 +77,7 @@
 + 调度器
 
 + 基于Casbin的服务
+  
   + [casbin-server](https://github.com/casbin/casbin-server)
 
 
@@ -84,7 +86,19 @@
 
 惊叹Casbin代码量如此小居然能实现这么强大而灵活的功能，代码量很小就直接看源码吧。
 
+TODO:
 
++ 多Casbin实例+监视器原理
+
+
+
+## 使用
+
+和业界其他框架一样都是在拦截器、过滤器、AOP这种地方加授权；
+
+### Gin
+
+### Beego
 
 
 
