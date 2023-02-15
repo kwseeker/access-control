@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	modelConf = "conf/model.conf"
+	modelConf = "conf/models.conf"
 )
 
 var (

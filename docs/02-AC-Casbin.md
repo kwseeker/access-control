@@ -94,11 +94,39 @@ TODO:
 
 ## 使用
 
-和业界其他框架一样都是在拦截器、过滤器、AOP这种地方加授权；
+和业界其他框架一样都是在拦截器、过滤器、AOP这种地方加授权，只不过Go中习惯称这些为中间件，和Java体系中的中间件（可独立启动的服务）不是同一个概念。
+
+而且Go中的中间件和拦截器等实现原理基本一样，都是责任链模式，或者说是拓展插件的方式。
+
+除了认证、授权，还有日志、链路追踪等等Go的Web框架都习惯放到中间键中实现，和Java习惯放到拦截器等地方一致。
+
+比如看看go web的一个开源脚手架的middleware下都有什么:
+
+```txt
+middleware
+├── auth.go
+├── customerror.go
+├── db.go
+├── demo.go
+├── header.go
+├── init.go
+├── logger.go
+├── permission.go
+├── request_id.go
+├── sentinel.go
+├── settings.go
+└── trace.go
+```
+
+
 
 ### Gin
 
+参考 06-Casbin-Gin.md。
+
 ### Beego
+
+参考 07-Casbin-Beego.md。
 
 
 
