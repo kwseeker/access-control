@@ -1,8 +1,9 @@
 package config
 
 import (
-	"casbin-gin/common/component/storage"
+	"casbin-gin/cmd/runtime"
 	"casbin-gin/common/component/storage/cache"
+	"log"
 )
 
 type Cache struct {
@@ -12,20 +13,23 @@ type Cache struct {
 
 var CacheConfig = new(Cache)
 
-func (e Cache) Setup() (storage.AdapterCache, error) {
+func (e Cache) Setup() {
 	if e.Redis != nil {
 		options, err := e.Redis.GetRedisOptions()
 		if err != nil {
-			return nil, err
+			log.Fatal("Config cache setup failed, err:", err)
 		}
 		r, err := cache.NewRedis(GetRedisClient(), options)
 		if err != nil {
-			return nil, err
+			log.Fatal("Config cache setup failed, err:", err)
 		}
 		if _redis == nil {
 			_redis = r.GetClient()
 		}
-		return r, nil
+		//return r, nil
+		runtime.ApplicationContext.SetCacheAdapter(r)
+		return
 	}
-	return cache.NewMemory(), nil
+	m := cache.NewMemory()
+	runtime.ApplicationContext.SetCacheAdapter(m)
 }

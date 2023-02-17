@@ -1,6 +1,8 @@
 package casbin
 
 import (
+	"casbin-gin/cmd/config/database"
+	"casbin-gin/cmd/runtime"
 	"log"
 	"sync"
 
@@ -17,19 +19,19 @@ const (
 )
 
 var (
-	Enforcer *casbin.SyncedEnforcer
+	enforcer *casbin.SyncedEnforcer
 	once     sync.Once
 )
 
 func Setup() *casbin.SyncedEnforcer {
 	once.Do(func() {
-		adapter, err := xormAdapter.NewAdapter(config.DatabaseConfig.Driver, config.DatabaseConfig.Source, true)
+		adapter, err := xormAdapter.NewAdapter(database.Config.Driver, database.Config.Source, true)
 		//Enforcer, err = casbin.NewEnforcer(modelConf, adapter)
-		Enforcer, err = casbin.NewSyncedEnforcer(modelConf, adapter)
+		enforcer, err = casbin.NewSyncedEnforcer(modelConf, adapter)
 		if err != nil {
 			log.Fatal("Load casbin failed, err:", err)
 		}
-		err = Enforcer.LoadPolicy()
+		err = enforcer.LoadPolicy()
 		if err != nil {
 			log.Fatal("Load casbin policy failed, err:", err)
 		}
@@ -52,7 +54,7 @@ func Setup() *casbin.SyncedEnforcer {
 			if err != nil {
 				panic(err)
 			}
-			err = Enforcer.SetWatcher(w)
+			err = enforcer.SetWatcher(w)
 			if err != nil {
 				panic(err)
 			}
@@ -60,15 +62,16 @@ func Setup() *casbin.SyncedEnforcer {
 
 		//log.SetLogger(&Logger{})
 		//Enforcer.EnableLog(true)
+		runtime.ApplicationContext.SetCasbin("*", enforcer)
 	})
 
 	log.Println("Casbin enforcer setup")
-	return Enforcer
+	return enforcer
 }
 
 func updateCallback(msg string) {
 	log.Printf("casbin updateCallback msg: %v\n", msg)
-	err := Enforcer.LoadPolicy()
+	err := enforcer.LoadPolicy()
 	if err != nil {
 		log.Fatalf("casbin LoadPolicy err: %v\n", err)
 	}

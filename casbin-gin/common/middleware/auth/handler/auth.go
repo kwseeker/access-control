@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"casbin-gin/cmd/config"
+	"casbin-gin/cmd/runtime"
 	"casbin-gin/common/component/captcha"
 	jwt "casbin-gin/common/component/jwtauth"
 	"casbin-gin/common/component/response"
@@ -75,7 +75,7 @@ func Authenticator(c *gin.Context) (interface{}, error) {
 		//status = "1"
 		return nil, jwt.ErrMissingLoginValues
 	}
-	if config.ApplicationConfig.Mode != "dev" {
+	if runtime.ApplicationConfig.Mode != "dev" {
 		if !captcha.Verify(loginVals.UUID, loginVals.Code, true) {
 			//username = loginVals.Username
 			//msg = "验证码错误"

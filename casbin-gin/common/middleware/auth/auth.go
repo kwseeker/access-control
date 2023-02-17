@@ -2,6 +2,7 @@ package auth
 
 import (
 	"casbin-gin/cmd/config"
+	"casbin-gin/cmd/runtime"
 	jwt "casbin-gin/common/component/jwtauth"
 	"casbin-gin/common/middleware/auth/handler"
 	"time"
@@ -10,7 +11,7 @@ import (
 // AuthInit jwt验证new
 func AuthInit() (*jwt.GinJWTMiddleware, error) {
 	timeout := time.Hour
-	if config.ApplicationConfig.Mode == "dev" {
+	if runtime.ApplicationConfig.Mode == "dev" {
 		timeout = time.Duration(876010) * time.Hour
 	} else {
 		if config.JwtConfig.Timeout != 0 {

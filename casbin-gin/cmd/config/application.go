@@ -1,5 +1,7 @@
 package config
 
+var ApplicationConfig = new(Application)
+
 type Application struct {
 	ReadTimeout   int
 	WriterTimeout int
@@ -11,5 +13,3 @@ type Application struct {
 	DemoMsg       string
 	EnableDP      bool
 }
-
-var ApplicationConfig = new(Application)

@@ -1,7 +1,7 @@
-package config
+package database
 
 var (
-	DatabaseConfig = new(Database)
+	Config = new(Database)
 	//DatabasesConfig = make(map[string]*Database)
 )
 
@@ -20,4 +20,10 @@ type DBResolverConfig struct {
 	Replicas []string
 	Policy   string
 	Tables   []string
+}
+
+func (d *Database) Setup() {
+	//db, err :=
+	//TODO
+	//runtime.ApplicationContext.SetDb("*")
 }
